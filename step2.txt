@@ -1,0 +1,54 @@
+Data Acquisition and Exhibition Intelligence System
+Objective
+
+Build a robust data ingestion pipeline that collects and maintains a global database of trade exhibitions from trusted sources.
+
+Primary Data Sources
+Official exhibition websites
+10times
+EventsEye
+TradeFairDates
+TSNN
+UFI
+Data Collection Strategy
+Phase 1: Manual Curated Database
+Create an admin panel to manually add and edit exhibitions.
+Import CSV/Excel files.
+Support multilingual content.
+Attach YouTube videos and official URLs.
+Phase 2: Automated Crawlers
+Build Python crawlers using Scrapy, BeautifulSoup, and Selenium.
+Detect date changes and content updates.
+Normalize fields into a unified schema.
+Phase 3: AI Data Cleaning
+Use AI to summarize exhibition descriptions.
+Categorize exhibitions by industry.
+Generate SEO-friendly keywords.
+Phase 4: Organizer Portal
+Allow exhibition organizers to claim and update their events.
+Exhibition Data Schema
+name
+slug
+description
+industries
+country
+city
+venue
+start_date
+end_date
+official_website
+registration_url
+youtube_video_url
+images
+exhibitors_count
+visitors_count
+tags
+languages
+last_verified_at
+Update Frequency
+Daily crawler checks
+Manual editorial review
+Automatic alerts when dates change
+Strategic Goal
+
+Build the world's most comprehensive Trade Show Intelligence Database.

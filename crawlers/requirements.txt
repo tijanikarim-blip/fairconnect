@@ -1,0 +1,4 @@
+scrapy>=2.15
+beautifulsoup4>=4.12
+firebase-admin>=6.0
+lxml>=5.0

@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../models/app_user.dart';
+import '../models/exhibition.dart';
+import 'auth_service.dart';
+import 'firestore_service.dart';
+import 'localization_service.dart';
+
+class AppProvider extends ChangeNotifier {
+  final AuthService _auth = AuthService();
+  final FirestoreService _firestore = FirestoreService();
+  final LocalizationService _localization = LocalizationService();
+
+  AppUser? _currentUser;
+  User? _firebaseUser;
+  List<Exhibition> _exhibitions = [];
+  bool _isLoading = false;
+  String? _error;
+
+  AppUser? get currentUser => _currentUser;
+  User? get firebaseUser => _firebaseUser;
+  List<Exhibition> get exhibitions => _exhibitions;
+  bool get isLoading => _isLoading;
+  String? get error => _error;
+  LocalizationService get localization => _localization;
+
+  void init() {
+    _auth.authState.listen((user) {
+      _firebaseUser = user;
+      if (user != null) {
+        _firestore.getUser(user.uid).listen((appUser) {
+          _currentUser = appUser;
+          notifyListeners();
+        });
+      } else {
+        _currentUser = null;
+        notifyListeners();
+      }
+    });
+
+    _firestore.getExhibitions().listen((list) {
+      _exhibitions = list;
+      notifyListeners();
+    });
+  }
+
+  Future<bool> signIn(String email, String password) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      await _auth.signInWithEmail(email, password);
+      _error = null;
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> register(String email, String password) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+      final cred = await _auth.registerWithEmail(email, password);
+      final user = AppUser(
+        id: cred.user!.uid,
+        email: email,
+      );
+      await _firestore.createUser(user);
+      _error = null;
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
+
+  Future<void> toggleFavorite(String exhibitionId) async {
+    if (_currentUser == null) return;
+    final userId = _currentUser!.id;
+    if (_currentUser!.favoriteExhibitionIds.contains(exhibitionId)) {
+      await _firestore.removeFavorite(userId, exhibitionId);
+    } else {
+      await _firestore.addFavorite(userId, exhibitionId);
+    }
+  }
+
+  bool isFavorite(String exhibitionId) {
+    return _currentUser?.favoriteExhibitionIds.contains(exhibitionId) ?? false;
+  }
+
+  List<Exhibition> get favoriteExhibitions {
+    final favIds = _currentUser?.favoriteExhibitionIds ?? [];
+    return _exhibitions.where((e) => favIds.contains(e.id)).toList();
+  }
+
+  void setLocale(Locale locale) {
+    _localization.setLocale(locale);
+    notifyListeners();
+  }
+}

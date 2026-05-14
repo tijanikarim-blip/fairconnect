@@ -1,0 +1,29 @@
+What’s Included in the Prompt
+Project vision and business objective
+Technology stack recommendations (Flutter + Firebase)
+Complete feature list for MVP
+Screen-by-screen specifications
+Firestore database schema
+Notification and reminder system
+YouTube integration
+Subscription model
+Multi-language support (English, Arabic, French)
+Design system and UI guidelines
+Development roadmap in phases
+Optional future expansions
+MVP Core Features
+Global trade show calendar
+Search and filtering by industry, country, and date
+Favorites and personalized reminders
+Embedded YouTube videos for each exhibition
+Official registration links
+Premium annual subscription
+Admin panel-ready data structure
+Concept Image
+
+The concept image illustrates:
+
+Dashboard with global trade exhibitions
+Filters for industry and country
+Exhibition cards with reminder and video buttons
+Premium business aesthetic suitable for international trade professionals

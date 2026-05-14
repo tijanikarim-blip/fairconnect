@@ -1,0 +1,25 @@
+import scrapy
+
+
+class ExhibitionItem(scrapy.Item):
+    source = scrapy.Field()
+    source_url = scrapy.Field()
+    name = scrapy.Field()
+    description = scrapy.Field()
+    industries = scrapy.Field()
+    country = scrapy.Field()
+    city = scrapy.Field()
+    venue = scrapy.Field()
+    start_date = scrapy.Field()
+    end_date = scrapy.Field()
+    official_website = scrapy.Field()
+    registration_url = scrapy.Field()
+    youtube_video_url = scrapy.Field()
+    images = scrapy.Field()
+    exhibitors_count = scrapy.Field()
+    visitors_count = scrapy.Field()
+    tags = scrapy.Field()
+    languages = scrapy.Field()
+    organizer = scrapy.Field()
+    is_premium = scrapy.Field()
+    is_featured = scrapy.Field()
