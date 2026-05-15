@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/app_user.dart';
@@ -5,11 +6,13 @@ import '../models/exhibition.dart';
 import 'auth_service.dart';
 import 'firestore_service.dart';
 import 'localization_service.dart';
+import 'notification_service.dart';
 
 class AppProvider extends ChangeNotifier {
   final AuthService _auth = AuthService();
   final FirestoreService _firestore = FirestoreService();
   final LocalizationService _localization = LocalizationService();
+  Timer? _reminderTimer;
 
   AppUser? _currentUser;
   User? _firebaseUser;
@@ -25,6 +28,7 @@ class AppProvider extends ChangeNotifier {
   LocalizationService get localization => _localization;
 
   void init() {
+    _startReminderCheck();
     _auth.authState.listen((user) {
       _firebaseUser = user;
       if (user != null) {
@@ -42,6 +46,30 @@ class AppProvider extends ChangeNotifier {
       _exhibitions = list;
       notifyListeners();
     });
+  }
+
+  void _startReminderCheck() {
+    _reminderTimer?.cancel();
+    _reminderTimer = Timer.periodic(const Duration(minutes: 4), (_) async {
+      try {
+        final dueReminders = await _firestore.getDueReminders();
+        for (final reminder in dueReminders) {
+          final id = reminder['id'] as String;
+          NotificationService().showExhibitionReminder(
+            id: id.hashCode,
+            title: 'Exhibition Reminder',
+            body: 'An exhibition you saved is coming up!',
+          );
+          await _firestore.markReminderSent(id);
+        }
+      } catch (_) {}
+    });
+  }
+
+  @override
+  void dispose() {
+    _reminderTimer?.cancel();
+    super.dispose();
   }
 
   Future<bool> signIn(String email, String password) async {

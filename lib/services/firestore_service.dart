@@ -170,6 +170,22 @@ class FirestoreService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getDueReminders() async {
+    final snapshot = await _db
+        .collection(AppConstants.collectionReminders)
+        .where('isSent', isEqualTo: false)
+        .where('remindAt', isLessThanOrEqualTo: DateTime.now())
+        .get();
+    return snapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  Future<void> markReminderSent(String reminderId) async {
+    await _db
+        .collection(AppConstants.collectionReminders)
+        .doc(reminderId)
+        .update({'isSent': true});
+  }
+
   Stream<bool> hasReminder(String userId, String exhibitionId) {
     return _db
         .collection(AppConstants.collectionReminders)
