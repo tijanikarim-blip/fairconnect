@@ -59,8 +59,8 @@ class NotificationService {
 
     if (delay.isNegative) return;
 
-    await Future.delayed(delay, () {
-      showExhibitionReminder(id: id, title: title, body: body);
+    await Future.delayed(delay, () async {
+      await showExhibitionReminder(id: id, title: title, body: body);
     });
   }
 }

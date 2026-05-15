@@ -36,7 +36,9 @@ class AppUser {
           : null,
       favoriteExhibitionIds:
           List<String>.from(data['favoriteExhibitionIds'] ?? []),
-      createdAt: (data['createdAt'] as dynamic).toDate(),
+      createdAt: data['createdAt'] != null
+          ? (data['createdAt'] as dynamic).toDate()
+          : DateTime.now(),
       isAdmin: data['isAdmin'] ?? false,
     );
   }

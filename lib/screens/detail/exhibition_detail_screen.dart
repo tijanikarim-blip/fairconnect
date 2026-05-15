@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -20,7 +21,9 @@ class _ExhibitionDetailScreenState extends State<ExhibitionDetailScreen> {
   Exhibition? _exhibition;
   YoutubePlayerController? _youtubeController;
   bool _hasReminder = false;
-  final int _currentImageIndex = 0;
+  int _currentImageIndex = 0;
+  StreamSubscription<Exhibition?>? _exhibitionSubscription;
+  StreamSubscription<bool>? _reminderSubscription;
 
   @override
   void initState() {
@@ -29,7 +32,7 @@ class _ExhibitionDetailScreenState extends State<ExhibitionDetailScreen> {
   }
 
   void _load() {
-    _firestore.getExhibition(widget.exhibitionId).listen((exhibition) {
+    _exhibitionSubscription = _firestore.getExhibition(widget.exhibitionId).listen((exhibition) {
       if (!mounted) return;
       setState(() { _exhibition = exhibition; });
       if (exhibition?.youtubeVideoId != null && _youtubeController == null) {
@@ -42,7 +45,7 @@ class _ExhibitionDetailScreenState extends State<ExhibitionDetailScreen> {
 
     final provider = context.read<AppProvider>();
     if (provider.currentUser != null) {
-      _firestore
+      _reminderSubscription = _firestore
           .hasReminder(provider.currentUser!.id, widget.exhibitionId)
           .listen((has) {
         if (mounted) setState(() => _hasReminder = has);
@@ -53,6 +56,8 @@ class _ExhibitionDetailScreenState extends State<ExhibitionDetailScreen> {
   @override
   void dispose() {
     _youtubeController?.dispose();
+    _exhibitionSubscription?.cancel();
+    _reminderSubscription?.cancel();
     super.dispose();
   }
 
@@ -79,34 +84,50 @@ class _ExhibitionDetailScreenState extends State<ExhibitionDetailScreen> {
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               background: e.images.isNotEmpty
-                  ? Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.network(
-                          e.images[_currentImageIndex],
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => _placeholder(theme),
-                        ),
-                        if (e.images.length > 1)
-                          Positioned(
-                            bottom: 8,
-                            right: 8,
-                            child: Row(
-                              children: List.generate(e.images.length, (i) {
-                                return Container(
-                                  width: 8, height: 8,
-                                  margin: const EdgeInsets.only(left: 4),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: i == _currentImageIndex
-                                        ? Colors.white
-                                        : Colors.white38,
-                                  ),
-                                );
-                              }),
-                            ),
+                  ? GestureDetector(
+                      onHorizontalDragEnd: (details) {
+                        if (e.images.length <= 1) return;
+                        if (details.primaryVelocity! > 0) {
+                          setState(() {
+                            _currentImageIndex = _currentImageIndex == 0
+                                ? e.images.length - 1
+                                : _currentImageIndex - 1;
+                          });
+                        } else if (details.primaryVelocity! < 0) {
+                          setState(() {
+                            _currentImageIndex = (_currentImageIndex + 1) % e.images.length;
+                          });
+                        }
+                      },
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Image.network(
+                            e.images[_currentImageIndex],
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, _, _) => _placeholder(theme),
                           ),
-                      ],
+                          if (e.images.length > 1)
+                            Positioned(
+                              bottom: 8,
+                              right: 8,
+                              child: Row(
+                                children: List.generate(e.images.length, (i) {
+                                  return Container(
+                                    width: 8, height: 8,
+                                    margin: const EdgeInsets.only(left: 4),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: i == _currentImageIndex
+                                          ? Colors.white
+                                          : Colors.white38,
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                        ],
+                      ),
                     )
                   : _placeholder(theme),
             ),
@@ -274,21 +295,33 @@ class _ExhibitionDetailScreenState extends State<ExhibitionDetailScreen> {
     return ActionChip(avatar: Icon(icon, color: color), label: Text(label), onPressed: onTap);
   }
 
-  void _toggleReminder(AppProvider provider, Exhibition e) {
+  Future<void> _toggleReminder(AppProvider provider, Exhibition e) async {
     if (_hasReminder) {
-      _firestore.removeReminder(provider.currentUser!.id, e.id);
+      await _firestore.removeReminder(provider.currentUser!.id, e.id);
     } else {
       final remindAt = e.startDate.subtract(const Duration(days: 1));
-      _firestore.setReminder(provider.currentUser!.id, e.id, remindAt);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Reminder set for 1 day before')),
-      );
+      await _firestore.setReminder(provider.currentUser!.id, e.id, remindAt);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Reminder set for 1 day before')),
+        );
+      }
     }
   }
 
   Future<void> _launchUrl(String url) async {
     final uri = Uri.tryParse(url);
-    if (uri != null) await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (uri != null) {
+      try {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Could not open URL: $e')),
+          );
+        }
+      }
+    }
   }
 
   String _formatDate(DateTime date) => '${date.day}/${date.month}/${date.year}';

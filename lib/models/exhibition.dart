@@ -84,8 +84,12 @@ class Exhibition {
       industries: _toList(data['industries'] ?? data['industry']),
       country: data['country'] ?? '',
       city: data['city'] ?? '',
-      startDate: (data['startDate'] as dynamic).toDate(),
-      endDate: (data['endDate'] as dynamic).toDate(),
+      startDate: data['startDate'] != null
+          ? (data['startDate'] as dynamic).toDate()
+          : DateTime.now(),
+      endDate: data['endDate'] != null
+          ? (data['endDate'] as dynamic).toDate()
+          : DateTime.now(),
       venue: data['venue'] ?? '',
       images: _toList(
           data['images'] ?? (data['imageUrl'] != null ? [data['imageUrl']] : [])),
@@ -102,7 +106,9 @@ class Exhibition {
           : null,
       isPremium: data['isPremium'] ?? false,
       isFeatured: data['isFeatured'] ?? false,
-      createdAt: (data['createdAt'] as dynamic).toDate(),
+      createdAt: data['createdAt'] != null
+          ? (data['createdAt'] as dynamic).toDate()
+          : DateTime.now(),
     );
   }
 

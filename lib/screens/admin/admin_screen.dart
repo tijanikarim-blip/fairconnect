@@ -312,7 +312,11 @@ class _AdminScreenState extends State<AdminScreen> {
                   isPremium: isPremium,
                   isFeatured: isFeatured,
                 );
-                await _firestore.addExhibition(data);
+                if (exhibition != null) {
+                  await _firestore.updateExhibition(data);
+                } else {
+                  await _firestore.addExhibition(data);
+                }
                 if (context.mounted) Navigator.pop(context);
               },
               child: const Text('Save'),
@@ -331,10 +335,10 @@ class _AdminScreenState extends State<AdminScreen> {
         content: Text('Are you sure you want to delete "${exhibition.name}"?'),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-          ElevatedButton(
-            onPressed: () {
-              _firestore.deleteExhibition(exhibition.id);
-              Navigator.pop(context);
+            ElevatedButton(
+            onPressed: () async {
+              await _firestore.deleteExhibition(exhibition.id);
+              if (context.mounted) Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             child: const Text('Delete'),

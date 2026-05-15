@@ -155,7 +155,7 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     if (success && mounted) {
-      Navigator.of(context).pop();
+      // navigation handled by auth state change in AppProvider
     }
   }
 }

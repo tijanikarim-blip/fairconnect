@@ -33,7 +33,9 @@ class OrganizerClaim {
       phone: data['phone'],
       website: data['website'],
       status: data['status'] ?? 'pending',
-      createdAt: (data['createdAt'] as dynamic).toDate(),
+      createdAt: data['createdAt'] != null
+          ? (data['createdAt'] as dynamic).toDate()
+          : DateTime.now(),
       approvedAt: data['approvedAt'] != null
           ? (data['approvedAt'] as dynamic).toDate()
           : null,

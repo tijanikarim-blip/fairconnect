@@ -22,8 +22,12 @@ class Subscription {
       id: id,
       userId: data['userId'] ?? '',
       productId: data['productId'] ?? '',
-      purchaseDate: (data['purchaseDate'] as dynamic).toDate(),
-      expiryDate: (data['expiryDate'] as dynamic).toDate(),
+      purchaseDate: data['purchaseDate'] != null
+          ? (data['purchaseDate'] as dynamic).toDate()
+          : DateTime.now(),
+      expiryDate: data['expiryDate'] != null
+          ? (data['expiryDate'] as dynamic).toDate()
+          : DateTime.now(),
       isActive: data['isActive'] ?? true,
       paymentMethod: data['paymentMethod'] ?? '',
     );

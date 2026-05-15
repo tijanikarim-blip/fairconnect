@@ -13,6 +13,9 @@ class AppProvider extends ChangeNotifier {
   final FirestoreService _firestore = FirestoreService();
   final LocalizationService _localization = LocalizationService();
   Timer? _reminderTimer;
+  StreamSubscription<User?>? _authSubscription;
+  StreamSubscription<AppUser?>? _userSubscription;
+  StreamSubscription<List<Exhibition>>? _exhibitionsSubscription;
 
   AppUser? _currentUser;
   User? _firebaseUser;
@@ -29,23 +32,42 @@ class AppProvider extends ChangeNotifier {
 
   void init() {
     _startReminderCheck();
-    _auth.authState.listen((user) {
-      _firebaseUser = user;
-      if (user != null) {
-        _firestore.getUser(user.uid).listen((appUser) {
-          _currentUser = appUser;
+    _authSubscription = _auth.authState.listen(
+      (user) {
+        _firebaseUser = user;
+        _userSubscription?.cancel();
+        if (user != null) {
+          _userSubscription = _firestore.getUser(user.uid).listen(
+            (appUser) {
+              _currentUser = appUser;
+              notifyListeners();
+            },
+            onError: (error) {
+              _error = error.toString();
+              notifyListeners();
+            },
+          );
+        } else {
+          _currentUser = null;
           notifyListeners();
-        });
-      } else {
-        _currentUser = null;
+        }
+      },
+      onError: (error) {
+        _error = error.toString();
         notifyListeners();
-      }
-    });
+      },
+    );
 
-    _firestore.getExhibitions().listen((list) {
-      _exhibitions = list;
-      notifyListeners();
-    });
+    _exhibitionsSubscription = _firestore.getExhibitions().listen(
+      (list) {
+        _exhibitions = list;
+        notifyListeners();
+      },
+      onError: (error) {
+        _error = error.toString();
+        notifyListeners();
+      },
+    );
   }
 
   void _startReminderCheck() {
@@ -55,7 +77,7 @@ class AppProvider extends ChangeNotifier {
         final dueReminders = await _firestore.getDueReminders();
         for (final reminder in dueReminders) {
           final id = reminder['id'] as String;
-          NotificationService().showExhibitionReminder(
+          await NotificationService().showExhibitionReminder(
             id: id.hashCode,
             title: 'Exhibition Reminder',
             body: 'An exhibition you saved is coming up!',
@@ -69,6 +91,9 @@ class AppProvider extends ChangeNotifier {
   @override
   void dispose() {
     _reminderTimer?.cancel();
+    _authSubscription?.cancel();
+    _userSubscription?.cancel();
+    _exhibitionsSubscription?.cancel();
     super.dispose();
   }
 
@@ -93,6 +118,7 @@ class AppProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
       final cred = await _auth.registerWithEmail(email, password);
+      if (cred.user == null) throw Exception('Registration failed - no user returned');
       final user = AppUser(
         id: cred.user!.uid,
         email: email,

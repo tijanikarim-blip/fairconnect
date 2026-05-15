@@ -32,7 +32,7 @@ class FilterBar extends StatelessWidget {
             children: [
               Expanded(
                 child: DropdownButtonFormField<String>(
-                  initialValue: selectedIndustry,
+                  value: selectedIndustry,
                   decoration: const InputDecoration(
                     labelText: 'Industry',
                     isDense: true,
@@ -48,7 +48,7 @@ class FilterBar extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: DropdownButtonFormField<String>(
-                  initialValue: selectedCountry,
+                  value: selectedCountry,
                   decoration: const InputDecoration(
                     labelText: 'Country',
                     isDense: true,
