@@ -1,0 +1,25 @@
+=== FAIRCONNECT CHANGELOG ===
+
+2026-05-15 22:30 - Fix Firebase init crash
+- Created lib/firebase_options.dart with DefaultFirebaseOptions (Android config from google-services.json)
+- Updated lib/main.dart to pass options to Firebase.initializeApp()
+
+2026-05-15 22:35 - Add periodic reminder check every 4 minutes
+- Added _startReminderCheck() with Timer.periodic in AppProvider
+- Added getDueReminders() and markReminderSent() to FirestoreService
+- Added proper dispose() with timer cleanup
+
+2026-05-15 22:45 - Fix multiple APK crashing bugs
+- BLOCKER: Changed initialValue to value in filter_bar.dart (DropdownButtonFormField wrong param)
+- CRITICAL: Added null date guards in exhibition.dart, app_user.dart, organizer_claim.dart, subscription.dart
+- CRITICAL: Guarded cred.user null in app_provider.dart register()
+- HIGH: Stored StreamSubscriptions with onError handlers in AppProvider, dispose cleans up
+- HIGH: Fixed image carousel stuck on first image (added GestureDetector swipe)
+- HIGH: Fixed stream subscriptions leak in exhibition_detail_screen
+- HIGH: Made deleteExhibition async in admin_screen
+- HIGH: Used updateExhibition for edits instead of always addExhibition
+- MEDIUM: Awaited async call in notification_service scheduleReminder
+- MEDIUM: Awaited removeReminder in _toggleReminder
+- MEDIUM: Added try-catch to _launchUrl
+- LOW: Removed dead Navigator.pop from auth_screen
+- LOW: Replaced unsafe as casts with doc.data()! in firestore_service
