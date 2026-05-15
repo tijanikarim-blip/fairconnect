@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "83077177002-3j5ft21li8dtmfvivr3964f5hhtqv0l6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.altijan.EXPOconnect",
+            "certificate_hash": "2e48a87afe445e001e88a3e6a94706aa47613bdd"
+          }
+        },
+        {
           "client_id": "83077177002-kaikmk7of208togb6j7jv23342f4hi03.apps.googleusercontent.com",
           "client_type": 3
         }
