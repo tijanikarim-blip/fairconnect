@@ -94,6 +94,17 @@ class _AuthScreenState extends State<AuthScreen> {
                       : Text(_isLogin ? 'Sign In' : 'Sign Up'),
                 ),
               ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: provider.isLoading
+                      ? null
+                      : () => _signInWithGoogle(provider),
+                  icon: const Icon(Icons.login),
+                  label: const Text('Sign in with Google'),
+                ),
+              ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () {
@@ -156,6 +167,15 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (success && mounted) {
       // navigation handled by auth state change in AppProvider
+    }
+  }
+
+  Future<void> _signInWithGoogle(AppProvider provider) async {
+    final success = await provider.signInWithGoogle();
+    if (!success && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(provider.error ?? 'Google sign-in failed')),
+      );
     }
   }
 }

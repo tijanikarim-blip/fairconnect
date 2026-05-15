@@ -12,7 +12,12 @@
           "package_name": "com.altijan.EXPOconnect"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "83077177002-kaikmk7of208togb6j7jv23342f4hi03.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDTYAlMXzG5fHJD6Nx4w2OeM_1teXssuwc"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83077177002-kaikmk7of208togb6j7jv23342f4hi03.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

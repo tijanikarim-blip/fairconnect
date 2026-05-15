@@ -30,3 +30,10 @@
 
 2026-05-15 23:10 - Fix CI compile error: doc.data()! returns Object, not Map
 - Reverted doc.data()! back to doc.data() as Map<String, dynamic> in firestore_service.dart (cloud_firestore 5.x data() returns Object?)
+
+2026-05-15 23:20 - Add Google Sign-In
+- Replaced google-services.json with new one containing OAuth client for Google Sign-In
+- Added google_sign_in: ^6.3.0 to pubspec.yaml
+- Added signInWithGoogle() to AuthService
+- Added signInWithGoogle() to AppProvider
+- Added "Sign in with Google" button to auth_screen.dart
