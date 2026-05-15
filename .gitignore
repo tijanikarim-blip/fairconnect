@@ -59,3 +59,4 @@ venv/
 *.csv
 *.json
 !crawlers/requirements.txt
+!android/app/google-services.json

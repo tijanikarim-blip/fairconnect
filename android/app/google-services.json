@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "83077177002",
+    "project_id": "expoconnect-8b7c4",
+    "storage_bucket": "expoconnect-8b7c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83077177002:android:ee06e9ae1a20a119727ad3",
+        "android_client_info": {
+          "package_name": "com.altijan.EXPOconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTYAlMXzG5fHJD6Nx4w2OeM_1teXssuwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
