@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.altijan.EXPOconnect"
+    namespace = "com.fairconnect.trade_show_calendar"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
