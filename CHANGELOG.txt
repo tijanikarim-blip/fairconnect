@@ -57,3 +57,4 @@
 
 2026-05-15 22:34 - Fix CI build errors: Icons.database does not exist
 - FIXED: Icons.database -> Icons.storage in admin_screen.dart (Icons.database is not a valid Material icon)
+- FIXED: Added ignore comments for deprecated value param in filter_bar.dart (DropdownButtonFormField)

@@ -32,6 +32,7 @@ class FilterBar extends StatelessWidget {
             children: [
               Expanded(
                 child: DropdownButtonFormField<String>(
+                  // ignore: deprecated_member_use
                   value: selectedIndustry,
                   decoration: const InputDecoration(
                     labelText: 'Industry',
@@ -48,6 +49,7 @@ class FilterBar extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: DropdownButtonFormField<String>(
+                  // ignore: deprecated_member_use
                   value: selectedCountry,
                   decoration: const InputDecoration(
                     labelText: 'Country',
