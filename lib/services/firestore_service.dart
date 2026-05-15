@@ -68,7 +68,7 @@ class FirestoreService {
         .orderBy('startDate', descending: false)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => Exhibition.fromFirestore(doc.data()!, doc.id))
+            .map((doc) => Exhibition.fromFirestore(doc.data() as Map<String, dynamic>, doc.id))
             .toList());
   }
 
@@ -211,7 +211,7 @@ class FirestoreService {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => OrganizerClaim.fromFirestore(doc.data()!, doc.id))
+            .map((doc) => OrganizerClaim.fromFirestore(doc.data() as Map<String, dynamic>, doc.id))
             .toList());
   }
 

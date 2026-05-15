@@ -27,3 +27,6 @@
 2026-05-15 23:00 - Fix GitHub Actions CI build failure
 - FIXED: namespace mismatch in android/app/build.gradle.kts (was "com.altijan.EXPOconnect", MainActivity.kt is in com.fairconnect.trade_show_calendar)
 - FIXED: Added FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true env var to build_apk.yml to suppress Node.js 20 deprecation warning
+
+2026-05-15 23:10 - Fix CI compile error: doc.data()! returns Object, not Map
+- Reverted doc.data()! back to doc.data() as Map<String, dynamic> in firestore_service.dart (cloud_firestore 5.x data() returns Object?)
