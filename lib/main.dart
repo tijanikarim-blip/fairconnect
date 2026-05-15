@@ -29,8 +29,9 @@ class _ErrorApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(
+        body: Padding(
           padding: const EdgeInsets.all(24),
+          child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -49,6 +50,7 @@ class _ErrorApp extends StatelessWidget {
                 style: TextStyle(color: Colors.grey),
               ),
             ],
+          ),
           ),
         ),
       ),
