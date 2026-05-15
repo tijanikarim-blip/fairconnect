@@ -82,31 +82,96 @@ class _ExhibitionsTab extends StatelessWidget {
     final exhibitions = provider.exhibitions;
 
     if (exhibitions.isEmpty) {
-      return const Center(child: Text('No exhibitions found'));
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.event_busy, size: 64, color: Colors.grey[400]),
+            const SizedBox(height: 16),
+            Text(
+              'No exhibitions yet',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Check back soon for upcoming trade shows',
+              style: TextStyle(color: Colors.grey[500]),
+            ),
+          ],
+        ),
+      );
     }
 
     final upcoming =
         exhibitions.where((e) => e.isUpcoming || e.isOngoing).toList();
+    final featured =
+        exhibitions.where((e) => e.isFeatured && (e.isUpcoming || e.isOngoing)).toList();
 
-    return ListView.builder(
+    return ListView(
       padding: const EdgeInsets.only(top: 8, bottom: 80),
-      itemCount: upcoming.length,
-      itemBuilder: (context, index) {
-        final exhibition = upcoming[index];
-        final isFav = provider.isFavorite(exhibition.id);
-        return ExhibitionCard(
-          exhibition: exhibition,
-          isFavorite: isFav,
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) =>
-                  ExhibitionDetailScreen(exhibitionId: exhibition.id),
+      children: [
+        if (featured.isNotEmpty) ...[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Text(
+              'Featured Exhibitions',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          onFavoriteToggle: () => provider.toggleFavorite(exhibition.id),
-        );
-      },
+          SizedBox(
+            height: 220,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.only(left: 12, right: 4),
+              itemCount: featured.length,
+              itemBuilder: (context, index) {
+                final e = featured[index];
+                return SizedBox(
+                  width: 280,
+                  child: ExhibitionCard(
+                    exhibition: e,
+                    isFavorite: provider.isFavorite(e.id),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ExhibitionDetailScreen(exhibitionId: e.id),
+                      ),
+                    ),
+                    onFavoriteToggle: () => provider.toggleFavorite(e.id),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Text(
+              'Upcoming Exhibitions',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+        ...upcoming.map((exhibition) {
+          final isFav = provider.isFavorite(exhibition.id);
+          return ExhibitionCard(
+            exhibition: exhibition,
+            isFavorite: isFav,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    ExhibitionDetailScreen(exhibitionId: exhibition.id),
+              ),
+            ),
+            onFavoriteToggle: () => provider.toggleFavorite(exhibition.id),
+          );
+        }),
+      ],
     );
   }
 }

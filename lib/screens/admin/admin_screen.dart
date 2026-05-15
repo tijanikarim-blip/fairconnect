@@ -49,8 +49,49 @@ class _AdminScreenState extends State<AdminScreen> {
           final exhibitions = snapshot.data!;
 
           if (exhibitions.isEmpty) {
-            return const Center(
-              child: Text('No exhibitions yet. Tap + to add one.'),
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.business_outlined, size: 64, color: Colors.grey[400]),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No exhibitions yet',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Tap + to add one or seed sample data',
+                    style: TextStyle(color: Colors.grey[500]),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Text('Seed Sample Data'),
+                          content: const Text('Add 8 sample trade show exhibitions to the database?'),
+                          actions: [
+                            TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+                            ElevatedButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Seed Data')),
+                          ],
+                        ),
+                      );
+                      if (confirm == true && context.mounted) {
+                        await _firestore.seedSampleData();
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Sample exhibitions added!')),
+                          );
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.database),
+                    label: const Text('Seed Sample Data'),
+                  ),
+                ],
+              ),
             );
           }
 

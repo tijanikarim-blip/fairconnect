@@ -79,9 +79,22 @@ class _SearchScreenState extends State<SearchScreen> {
           }),
         ),
         if (filtered.isEmpty)
-          const Padding(
-            padding: EdgeInsets.all(48),
-            child: Center(child: Text('No exhibitions found')),
+          Padding(
+            padding: const EdgeInsets.all(48),
+            child: Center(
+              child: Column(
+                children: [
+                  Icon(Icons.search_off, size: 48, color: Colors.grey[400]),
+                  const SizedBox(height: 12),
+                  Text(
+                    _searchController.text.isNotEmpty || _selectedIndustry != null
+                        ? 'No exhibitions match your search'
+                        : 'No exhibitions found',
+                    style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
           )
         else
           ...filtered.map((exhibition) {
