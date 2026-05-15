@@ -48,3 +48,9 @@
 - Added "Seed Sample Data" button in admin screen when exhibitions are empty
 - Added horizontal Featured Exhibitions section on dashboard
 - Improved empty states on dashboard, search, and admin screens with icons and helpful text
+
+2026-05-15 22:31 - Fix crawler pipeline: Twisted reactor, slug field, Firestore init
+- FIXED: TWISTED_REACTOR AsyncioReactor -> AsyncioSelectorReactor (Twisted 25.5.0 renamed it)
+- FIXED: Added slug field to ExhibitionItem (missing field caused KeyError in cleaning pipeline)
+- FIXED: FirestorePipeline.open_spider now handles re-initialization (firebase_admin.get_app())
+- FIXED: run_all.py auto-sets FIREBASE_CREDENTIALS env var from service-account.json

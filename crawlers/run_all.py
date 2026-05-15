@@ -9,9 +9,16 @@ Usage:
 """
 import argparse
 import logging
+import os
 import sys
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
+
+sys.path.insert(0, "..")
+
+_SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), "service-account.json")
+if os.path.exists(_SERVICE_ACCOUNT_PATH):
+    os.environ.setdefault("FIREBASE_CREDENTIALS", _SERVICE_ACCOUNT_PATH)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -21,24 +28,21 @@ logging.basicConfig(
 logger = logging.getLogger("crawler-runner")
 
 SPIDERS = {
-    "10times": "crawlers.spiders.tentimes_spider.TentimesSpider",
-    "eventseye": "crawlers.spiders.eventseye_spider.EventsEyeSpider",
-    "tradefairdates": "crawlers.spiders.tradefairdates_spider.TradeFairDatesSpider",
-    "tsnn": "crawlers.spiders.tsnn_spider.TsnnSpider",
-    "ufi": "crawlers.spiders.ufi_spider.UfiSpider",
+    "10times": ("spiders.tentimes_spider", "TentimesSpider"),
+    "eventseye": ("spiders.eventseye_spider", "EventsEyeSpider"),
+    "tradefairdates": ("spiders.tradefairdates_spider", "TradeFairDatesSpider"),
+    "tsnn": ("spiders.tsnn_spider", "TsnnSpider"),
+    "ufi": ("spiders.ufi_spider", "UfiSpider"),
 }
 
 ALL_SPIDERS = list(SPIDERS.keys())
 
 
-def run_spider(process, name):
-    logger.info(f"=" * 60)
-    logger.info(f"Starting spider: {name}")
-    logger.info(f"=" * 60)
-    try:
-        process.crawl(name)
-    except Exception as e:
-        logger.error(f"Spider {name} failed: {e}")
+def import_spider_class(name):
+    mod_path, cls_name = SPIDERS[name]
+    import importlib
+    mod = importlib.import_module(mod_path, package="crawlers")
+    return getattr(mod, cls_name)
 
 
 def main():
@@ -68,7 +72,14 @@ def main():
     spiders = ALL_SPIDERS if args.spider == "all" else [args.spider]
 
     for name in spiders:
-        run_spider(process, name)
+        cls = import_spider_class(name)
+        logger.info(f"=" * 60)
+        logger.info(f"Starting spider: {name}")
+        logger.info(f"=" * 60)
+        try:
+            process.crawl(cls)
+        except Exception as e:
+            logger.error(f"Spider {name} failed: {e}")
 
     logger.info("Starting crawl process...")
     process.start()

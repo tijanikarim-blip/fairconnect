@@ -4,6 +4,7 @@ import scrapy
 class ExhibitionItem(scrapy.Item):
     source = scrapy.Field()
     source_url = scrapy.Field()
+    slug = scrapy.Field()
     name = scrapy.Field()
     description = scrapy.Field()
     industries = scrapy.Field()

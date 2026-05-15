@@ -11,12 +11,15 @@ logger = logging.getLogger(__name__)
 
 class FirestorePipeline:
     def open_spider(self, spider):
-        cred_path = os.getenv("FIREBASE_CREDENTIALS")
-        if cred_path and os.path.exists(cred_path):
-            cred = credentials.Certificate(cred_path)
-            firebase_admin.initialize_app(cred)
-        else:
-            firebase_admin.initialize_app()
+        try:
+            firebase_admin.get_app()
+        except ValueError:
+            cred_path = os.getenv("FIREBASE_CREDENTIALS")
+            if cred_path and os.path.exists(cred_path):
+                cred = credentials.Certificate(cred_path)
+                firebase_admin.initialize_app(cred)
+            else:
+                firebase_admin.initialize_app()
 
         self.db = firestore.client()
         self.collection = self.db.collection("exhibitions")
