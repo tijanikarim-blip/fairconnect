@@ -9,10 +9,51 @@ import 'screens/auth/auth_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await NotificationService().init();
+  try {
+    await Firebase.initializeApp();
+    await NotificationService().init();
+  } catch (e) {
+    runApp(_ErrorApp(error: e.toString()));
+    return;
+  }
 
   runApp(const MyApp());
+}
+
+class _ErrorApp extends StatelessWidget {
+  final String error;
+  const _ErrorApp({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.error_outline, size: 64, color: Colors.red),
+              const SizedBox(height: 16),
+              const Text('App Initialization Failed',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              Text(error, textAlign: TextAlign.center),
+              const SizedBox(height: 24),
+              const Text(
+                'Make sure Firebase is configured:\n'
+                '1. Run: flutterfire configure\n'
+                '2. Or manually add google-services.json / GoogleService-Info.plist',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
