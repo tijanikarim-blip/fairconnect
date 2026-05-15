@@ -87,7 +87,7 @@ class _AdminScreenState extends State<AdminScreen> {
                         }
                       }
                     },
-                    icon: const Icon(Icons.database),
+                    icon: const Icon(Icons.storage),
                     label: const Text('Seed Sample Data'),
                   ),
                 ],
