@@ -40,3 +40,4 @@
 
 2026-05-15 23:30 - Redesigned auth screen UI
 - Redesigned auth_screen.dart with gradient header (FairConnect branding), rounded input fields, divider with "or continue with", Google button, and error container
+- Added SHA-1 fingerprint (2E:48:A8:7A:FE:44:5E:00:1E:88:A3:E6:A9:47:06:AA:47:61:3B:DD) to Firebase project for Google Sign-In
