@@ -37,3 +37,6 @@
 - Added signInWithGoogle() to AuthService
 - Added signInWithGoogle() to AppProvider
 - Added "Sign in with Google" button to auth_screen.dart
+
+2026-05-15 23:30 - Redesigned auth screen UI
+- Redesigned auth_screen.dart with gradient header (FairConnect branding), rounded input fields, divider with "or continue with", Google button, and error container
