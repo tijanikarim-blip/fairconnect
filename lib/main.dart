@@ -6,11 +6,14 @@ import 'services/notification_service.dart';
 import 'core/theme/app_theme.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/auth/auth_screen.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     await NotificationService().init();
   } catch (e) {
     runApp(_ErrorApp(error: e.toString()));
