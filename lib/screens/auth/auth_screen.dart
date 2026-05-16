@@ -247,13 +247,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text(
-'Sign In',
-
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),
+                             : const Text(
+                               'Sign In',
+                               style: const TextStyle(
+                                 fontSize: 18,
+                                 fontWeight: FontWeight.w600,
+                                 color: Colors.white,
+                               ),
+                             ),
                               ),
                       ),
                     ),
@@ -386,17 +387,21 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     bool success;
-    if (_isLogin) {
-      success = await provider.signIn(
-        _emailController.text,
-        _passwordController.text,
-      );
-    } else {
-      success = await provider.register(
-        _emailController.text,
-        _passwordController.text,
-      );
-    }
+                    ...(_isLogin) ? [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: Color(0xFF6A9FFF),
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ] : [],
 
     if (!success && mounted) {
       String errorMsg = provider.error ?? 'Login failed';
