@@ -1,0 +1,16 @@
+=== FAIRCONNECT NEXT STEPS ===
+
+HIGH PRIORITY
+- Fix crawler spiders: all blocked by Cloudflare/403 (anti-bot bypass needed)
+- Verify the latest CI build succeeds and download the APK
+- Test Google Sign-In + seed data display on a real device
+
+MEDIUM PRIORITY
+- Fix `value` -> `initialValue` deprecation in filter_bar.dart (properly, not with ignore comments)
+- Update spider selectors for current website HTML structures
+- Consider adding scraper anti-block measures: rotating user-agents, proxies, etc.
+
+LOW PRIORITY
+- Run all spiders to populate Firestore with trade show data
+- Review and improve empty states across the app
+- Check Twisted/scrapy deprecation warnings in pipeline methods

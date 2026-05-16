@@ -49,12 +49,12 @@
 - Added horizontal Featured Exhibitions section on dashboard
 - Improved empty states on dashboard, search, and admin screens with icons and helpful text
 
-2026-05-15 22:31 - Fix crawler pipeline: Twisted reactor, slug field, Firestore init
+2026-05-15 23:50 - Fix crawler pipeline: Twisted reactor, slug field, Firestore init
 - FIXED: TWISTED_REACTOR AsyncioReactor -> AsyncioSelectorReactor (Twisted 25.5.0 renamed it)
 - FIXED: Added slug field to ExhibitionItem (missing field caused KeyError in cleaning pipeline)
 - FIXED: FirestorePipeline.open_spider now handles re-initialization (firebase_admin.get_app())
 - FIXED: run_all.py auto-sets FIREBASE_CREDENTIALS env var from service-account.json
 
-2026-05-15 22:34 - Fix CI build errors: Icons.database does not exist
+2026-05-15 23:55 - Fix CI build errors: Icons.database does not exist
 - FIXED: Icons.database -> Icons.storage in admin_screen.dart (Icons.database is not a valid Material icon)
 - FIXED: Added ignore comments for deprecated value param in filter_bar.dart (DropdownButtonFormField)

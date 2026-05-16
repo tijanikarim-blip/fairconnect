@@ -21,6 +21,7 @@ class AppProvider extends ChangeNotifier {
   User? _firebaseUser;
   List<Exhibition> _exhibitions = [];
   bool _isLoading = false;
+  bool _seeded = false;
   String? _error;
 
   AppUser? get currentUser => _currentUser;
@@ -61,6 +62,10 @@ class AppProvider extends ChangeNotifier {
     _exhibitionsSubscription = _firestore.getExhibitions().listen(
       (list) {
         _exhibitions = list;
+        if (list.isEmpty && !_seeded) {
+          _seeded = true;
+          _firestore.seedSampleData();
+        }
         notifyListeners();
       },
       onError: (error) {

@@ -9,13 +9,19 @@ class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final Uuid _uuid = const Uuid();
 
+  Map<String, dynamic> _data(DocumentSnapshot doc) {
+    final data = doc.data();
+    if (data is Map<String, dynamic>) return data;
+    return data as Map<String, dynamic>;
+  }
+
   Stream<List<Exhibition>> getExhibitions() {
     return _db
         .collection(AppConstants.collectionExhibitions)
         .orderBy('startDate', descending: false)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => Exhibition.fromFirestore(doc.data(), doc.id))
+            .map((doc) => Exhibition.fromFirestore(_data(doc), doc.id))
             .toList());
   }
 
@@ -26,7 +32,7 @@ class FirestoreService {
         .orderBy('startDate', descending: false)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => Exhibition.fromFirestore(doc.data(), doc.id))
+            .map((doc) => Exhibition.fromFirestore(_data(doc), doc.id))
             .toList());
   }
 
@@ -37,7 +43,7 @@ class FirestoreService {
         .limit(1)
         .snapshots()
         .map((snapshot) => snapshot.docs.isNotEmpty
-            ? Exhibition.fromFirestore(snapshot.docs.first.data(), snapshot.docs.first.id)
+            ? Exhibition.fromFirestore(_data(snapshot.docs.first), snapshot.docs.first.id)
             : null);
   }
 
@@ -68,7 +74,7 @@ class FirestoreService {
         .orderBy('startDate', descending: false)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => Exhibition.fromFirestore(doc.data() as Map<String, dynamic>, doc.id))
+            .map((doc) => Exhibition.fromFirestore(_data(doc), doc.id))
             .toList());
   }
 
@@ -78,7 +84,7 @@ class FirestoreService {
         .doc(id)
         .snapshots()
         .map((doc) =>
-            doc.exists ? Exhibition.fromFirestore(doc.data()!, doc.id) : null);
+            doc.exists ? Exhibition.fromFirestore(_data(doc), doc.id) : null);
   }
 
   Future<void> addExhibition(Exhibition exhibition) {
@@ -108,7 +114,7 @@ class FirestoreService {
         .doc(userId)
         .snapshots()
         .map((doc) =>
-            doc.exists ? AppUser.fromFirestore(doc.data()!, doc.id) : null);
+            doc.exists ? AppUser.fromFirestore(_data(doc), doc.id) : null);
   }
 
   Future<void> createUser(AppUser user) {
@@ -211,7 +217,7 @@ class FirestoreService {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => OrganizerClaim.fromFirestore(doc.data() as Map<String, dynamic>, doc.id))
+            .map((doc) => OrganizerClaim.fromFirestore(_data(doc), doc.id))
             .toList());
   }
 

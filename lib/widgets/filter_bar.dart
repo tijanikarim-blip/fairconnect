@@ -31,36 +31,44 @@ class FilterBar extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: DropdownButtonFormField<String>(
-                  // ignore: deprecated_member_use
-                  value: selectedIndustry,
+                child: InputDecorator(
                   decoration: const InputDecoration(
                     labelText: 'Industry',
                     isDense: true,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   ),
-                  items: AppConstants.industries
-                      .map((i) => DropdownMenuItem(value: i, child: Text(i)))
-                      .toList(),
-                  onChanged: onIndustryChanged,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: selectedIndustry,
+                      isDense: true,
+                      onChanged: onIndustryChanged,
+                      items: AppConstants.industries
+                          .map((i) => DropdownMenuItem(value: i, child: Text(i)))
+                          .toList(),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: DropdownButtonFormField<String>(
-                  // ignore: deprecated_member_use
-                  value: selectedCountry,
+                child: InputDecorator(
                   decoration: const InputDecoration(
                     labelText: 'Country',
                     isDense: true,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   ),
-                  items: AppConstants.countries
-                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                      .toList(),
-                  onChanged: onCountryChanged,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: selectedCountry,
+                      isDense: true,
+                      onChanged: onCountryChanged,
+                      items: AppConstants.countries
+                          .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                          .toList(),
+                    ),
+                  ),
                 ),
               ),
             ],
