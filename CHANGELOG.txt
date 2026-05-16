@@ -58,3 +58,9 @@
 2026-05-15 23:55 - Fix CI build errors: Icons.database does not exist
 - FIXED: Icons.database -> Icons.storage in admin_screen.dart (Icons.database is not a valid Material icon)
 - FIXED: Added ignore comments for deprecated value param in filter_bar.dart (DropdownButtonFormField)
+
+2026-05-16 - Full dark theme auth screen redesign, auto-seed data, code cleanup
+- REDESIGNED: auth_screen.dart now uses full-screen dark navy gradient (no white card section), translucent input fields, glossy gradient button with shadow, dark-themed divider and Google button
+- FIXED: filter_bar.dart - replaced deprecated DropdownButtonFormField with InputDecorator + DropdownButton, removed ignore comments
+- FIXED: firestore_service.dart - added _data() helper for consistent doc.data() handling across all query methods
+- ADDED: Auto-seed sample data in app_provider.dart - when exhibitions stream returns empty on first launch, seedSampleData() runs automatically so new users see content immediately
