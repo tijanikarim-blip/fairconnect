@@ -74,3 +74,10 @@
 - CHANGED: settings.py - disabled ROBOTSTXT_OBEY, added retry, cookies, real browser-like headers
 - REWROTE: middlewares.py - RotateUserAgentMiddleware with 10 real browser UAs, RetryWithBackoffMiddleware with exponential backoff, CloudflareBypassMiddleware that tries cloudscraper first then selenium fallback
 - CHANGED: requirements.txt - added cloudscraper and selenium for Cloudflare bypass
+
+2026-05-16 - Add web admin control panel dashboard
+- ADDED: lib/screens/admin/web_admin_screen.dart - full web admin with dark sidebar nav (Dashboard, Exhibitions, Users, Crawler)
+- ADDED: lib/screens/admin/panels/exhibitions_panel.dart - exhibition list with featured/premium badges
+- ADDED: lib/screens/admin/panels/users_panel.dart - user management placeholder
+- ADDED: lib/screens/admin/panels/crawler_panel.dart - crawler source status and run instructions
+- ADDED: lib/main_web.dart - dedicated web entry point for admin panel (flutter run -d chrome -t lib/main_web.dart)

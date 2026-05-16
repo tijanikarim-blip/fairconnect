@@ -5,9 +5,11 @@ import '../../widgets/exhibition_card.dart';
 import '../detail/exhibition_detail_screen.dart';
 import '../search/search_screen.dart';
 import '../favorites/favorites_screen.dart';
+import '../calendar/calendar_screen.dart';
 import '../subscription/subscription_screen.dart';
 import '../admin/admin_screen.dart';
 import '../organizer/organizer_portal_screen.dart';
+import '../settings/settings_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -22,6 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _screens = const [
     _ExhibitionsTab(),
     SearchScreen(),
+    CalendarScreen(),
     FavoritesScreen(),
     _ProfileTab(),
   ];
@@ -32,7 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: AppBar(
         title: const Text('FairConnect'),
         actions: [
-          if (_currentIndex == 3)
+          if (_currentIndex == 4)
             IconButton(
               icon: const Icon(Icons.admin_panel_settings),
               onPressed: () => Navigator.push(
@@ -50,12 +53,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
           NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),
             selectedIcon: Icon(Icons.dashboard),
-            label: 'Dashboard',
+            label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.search_outlined),
             selectedIcon: Icon(Icons.search),
             label: 'Search',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.calendar_month_outlined),
+            selectedIcon: Icon(Icons.calendar_month),
+            label: 'Calendar',
           ),
           NavigationDestination(
             icon: Icon(Icons.favorite_outline),
@@ -244,6 +252,15 @@ class _ProfileTab extends StatelessWidget {
           subtitle: Text(loc.tr(localeToLanguage(loc.locale.languageCode))),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => _showLanguagePicker(context, provider),
+        ),
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: Text(loc.tr('settings')),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SettingsScreen()),
+          ),
         ),
         const Divider(),
         ListTile(

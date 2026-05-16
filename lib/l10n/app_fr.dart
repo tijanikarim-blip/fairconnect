@@ -64,5 +64,7 @@ class AppFr {
     'favoriteRemoved': 'Retiré des favoris',
     'noFavorites': 'Aucun favori',
     'noFavoritesDesc': 'Commencez à ajouter des expositions à vos favoris',
+    'settings': 'Paramètres',
+    'notifications': 'Notifications',
   };
 }

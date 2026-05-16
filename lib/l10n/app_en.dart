@@ -64,5 +64,7 @@ class AppEn {
     'favoriteRemoved': 'Removed from favorites',
     'noFavorites': 'No favorites yet',
     'noFavoritesDesc': 'Start adding exhibitions to your favorites',
+    'settings': 'Settings',
+    'notifications': 'Notifications',
   };
 }

@@ -64,5 +64,7 @@ class AppAr {
     'favoriteRemoved': 'أزيل من المفضلة',
     'noFavorites': 'لا توجد مفضلات بعد',
     'noFavoritesDesc': 'ابدأ بإضافة المعارض إلى مفضلاتك',
+    'settings': 'الإعدادات',
+    'notifications': 'الإشعارات',
   };
 }

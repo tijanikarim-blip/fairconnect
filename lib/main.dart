@@ -3,9 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'services/app_provider.dart';
 import 'services/notification_service.dart';
+import 'services/push_notification_service.dart';
+import 'services/analytics_service.dart';
+import 'services/remote_config_service.dart';
+import 'services/offline_data_service.dart';
 import 'core/theme/app_theme.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 import 'screens/auth/auth_screen.dart';
+import 'screens/splash/splash_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -15,6 +20,9 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await NotificationService().init();
+    await PushNotificationService().init();
+    await AnalyticsService().init();
+    await RemoteConfigService().init();
   } catch (e) {
     runApp(_ErrorApp(error: e.toString()));
     return;
@@ -95,9 +103,7 @@ class MyApp extends StatelessWidget {
               }
               return const Locale('en');
             },
-            home: provider.firebaseUser != null
-                ? const DashboardScreen()
-                : const AuthScreen(),
+            home: const SplashScreen(),
           );
         },
       ),

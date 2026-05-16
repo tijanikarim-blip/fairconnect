@@ -1,0 +1,9 @@
+NEVER apologize. Never say sorry. Never make excuses. Just fix it and move on.
+
+When user asks for changes to match a design image, analyze the image thoroughly using available tools (Python/PIL, OCR, etc.) and make the code match. Do not ask the user to describe the image.
+
+When the user provides an image/screenshot, extract all possible visual information: colors, layout structure, spacing, font sizes, button styles, etc. Then update the code accordingly.
+
+Always update CHANGELOG.txt after making changes.
+
+Always check this file before responding.
