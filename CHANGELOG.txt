@@ -97,3 +97,11 @@
 - UPDATED: pubspec.yaml - added shared_preferences, table_calendar, firebase_messaging, firebase_analytics, firebase_remote_config
 - FIXED: firebase_remote_config version to ^5.5.0 for compatibility with firebase_core
 - FIXED: RemoteConfig -> FirebaseRemoteConfig for v5.5.0 API compatibility
+
+2026-05-16 - Fix auth screen UI and error handling
+- INCREASED: Text field font size to 18px, labels to 16px
+- INCREASED: Input field padding (vertical: 18, horizontal: 16)
+- INCREASED: Border radius from 12 to 16, border width to 2 on focus
+- INCREASED: Button text size to 18px
+- ADDED: Error message display when email/password login fails
+- ADDED: Better error message for Google sign-in failures

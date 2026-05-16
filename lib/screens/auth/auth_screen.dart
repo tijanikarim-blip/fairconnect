@@ -113,50 +113,52 @@ class _AuthScreenState extends State<AuthScreen> {
                   // Email field
                   TextField(
                     controller: _emailController,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+                      labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 16),
                       prefixIcon: Icon(Icons.email_outlined,
                           color: Colors.white.withValues(alpha: 0.5)),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide:
-                            BorderSide(color: Colors.white.withValues(alpha: 0.15)),
+                            BorderSide(color: Colors.white.withValues(alpha: 0.2)),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide:
-                            BorderSide(color: const Color(0xFF4A7FFF)),
+                            BorderSide(color: const Color(0xFF4A7FFF), width: 2),
                       ),
                       filled: true,
-                      fillColor: Colors.white.withValues(alpha: 0.06),
+                      fillColor: Colors.white.withValues(alpha: 0.08),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
                     ),
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   // Password field
                   TextField(
                     controller: _passwordController,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+                      labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 16),
                       prefixIcon: Icon(Icons.lock_outlined,
                           color: Colors.white.withValues(alpha: 0.5)),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide:
-                            BorderSide(color: Colors.white.withValues(alpha: 0.15)),
+                            BorderSide(color: Colors.white.withValues(alpha: 0.2)),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide:
-                            BorderSide(color: const Color(0xFF4A7FFF)),
+                            BorderSide(color: const Color(0xFF4A7FFF), width: 2),
                       ),
                       filled: true,
-                      fillColor: Colors.white.withValues(alpha: 0.06),
+                      fillColor: Colors.white.withValues(alpha: 0.08),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
                     ),
                   ),
                   if (!_isLogin) ...[
@@ -167,21 +169,22 @@ class _AuthScreenState extends State<AuthScreen> {
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
-                        labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+                        labelStyle: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 16),
                         prefixIcon: Icon(Icons.lock_outlined,
                             color: Colors.white.withValues(alpha: 0.5)),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           borderSide:
-                              BorderSide(color: Colors.white.withValues(alpha: 0.15)),
+                              BorderSide(color: Colors.white.withValues(alpha: 0.2)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           borderSide:
-                              BorderSide(color: const Color(0xFF4A7FFF)),
+                              BorderSide(color: const Color(0xFF4A7FFF), width: 2),
                         ),
                         filled: true,
-                        fillColor: Colors.white.withValues(alpha: 0.06),
+                        fillColor: Colors.white.withValues(alpha: 0.08),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
                       ),
                     ),
                   ],
@@ -245,9 +248,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                               )
                             : const Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  fontSize: 16,
+'Sign In',
+
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
                                 ),
@@ -392,6 +395,15 @@ class _AuthScreenState extends State<AuthScreen> {
       success = await provider.register(
         _emailController.text,
         _passwordController.text,
+      );
+    }
+
+    if (!success && mounted && provider.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(provider.error!),
+          backgroundColor: Colors.red.shade700,
+        ),
       );
     }
 
