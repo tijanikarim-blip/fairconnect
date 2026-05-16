@@ -37,10 +37,8 @@ class _AuthScreenState extends State<AuthScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF010E26),
-              Color(0xFF01163D),
-              Color(0xFF001433),
-              Color(0xFF001A3D),
+              Color(0xFF010E27),
+              Color(0xFF0B1C39),
               Color(0xFF03215A),
             ],
           ),
@@ -85,7 +83,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       letterSpacing: 0.8,
                     ),
                   ),
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 32),
                   // Heading
                   Align(
                     alignment: Alignment.centerLeft,
@@ -111,7 +109,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                   // Email field
                   TextField(
                     controller: _emailController,
@@ -136,7 +134,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   // Password field
                   TextField(
                     controller: _passwordController,
@@ -214,16 +212,13 @@ class _AuthScreenState extends State<AuthScreen> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Color(0xFF2A5CFF),
-                            Color(0xFF1A3FCC),
-                            Color(0xFF1A3FCC),
-                            Color(0xFF1535B0),
+                            Color(0xFF2C58BC),
+                            Color(0xFF1E489F),
                           ],
-                          stops: [0.0, 0.3, 0.7, 1.0],
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF1A3FCC).withValues(alpha: 0.4),
+                            color: const Color(0xFF1E489F).withValues(alpha: 0.4),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),

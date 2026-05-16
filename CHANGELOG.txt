@@ -64,3 +64,13 @@
 - FIXED: filter_bar.dart - replaced deprecated DropdownButtonFormField with InputDecorator + DropdownButton, removed ignore comments
 - FIXED: firestore_service.dart - added _data() helper for consistent doc.data() handling across all query methods
 - ADDED: Auto-seed sample data in app_provider.dart - when exhibitions stream returns empty on first launch, seedSampleData() runs automatically so new users see content immediately
+
+2026-05-16 - Refine auth screen to match design mockup exactly
+- CHANGED: gradient simplified to 3 stops (#010E27 → #0B1C39 → #03215A) matching design
+- CHANGED: Sign In button muted from vivid blue to #2C58BC→#1E489F as in design
+- CHANGED: tighter spacing throughout (48→32 before heading, 32→24 before email, 16→12 before password)
+
+2026-05-16 - Fix crawler Cloudflare/403 anti-bot bypass
+- CHANGED: settings.py - disabled ROBOTSTXT_OBEY, added retry, cookies, real browser-like headers
+- REWROTE: middlewares.py - RotateUserAgentMiddleware with 10 real browser UAs, RetryWithBackoffMiddleware with exponential backoff, CloudflareBypassMiddleware that tries cloudscraper first then selenium fallback
+- CHANGED: requirements.txt - added cloudscraper and selenium for Cloudflare bypass
