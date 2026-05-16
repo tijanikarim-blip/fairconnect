@@ -7,3 +7,9 @@ When the user provides an image/screenshot, extract all possible visual informat
 Always update CHANGELOG.txt after making changes.
 
 Always check this file before responding.
+
+After completing any task:
+- Push changes to GitHub automatically
+- Update CHANGELOG.txt with what was done
+- Commit with appropriate message
+- Do not ask user for permission to do this
