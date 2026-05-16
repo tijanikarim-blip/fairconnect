@@ -5,7 +5,7 @@ class RemoteConfigService {
   factory RemoteConfigService() => _instance;
   RemoteConfigService._();
 
-  late RemoteConfig _remoteConfig;
+  late FirebaseRemoteConfig _remoteConfig;
 
   static const String _defaultPremiumPrice = '49.99';
   static const String _defaultMinExhibitors = '100';
@@ -46,7 +46,7 @@ class RemoteConfigService {
   }
 
   Future<void> init() async {
-    _remoteConfig = RemoteConfig.instance;
+    _remoteConfig = FirebaseRemoteConfig.instance;
 
     await _remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 10),
