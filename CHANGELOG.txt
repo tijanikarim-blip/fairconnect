@@ -81,3 +81,18 @@
 - ADDED: lib/screens/admin/panels/users_panel.dart - user management placeholder
 - ADDED: lib/screens/admin/panels/crawler_panel.dart - crawler source status and run instructions
 - ADDED: lib/main_web.dart - dedicated web entry point for admin panel (flutter run -d chrome -t lib/main_web.dart)
+
+2026-05-16 - Complete Phase 1 MVP - Add core screens and services
+- ADDED: Splash screen (lib/screens/splash/splash_screen.dart) with animated logo and gradient background
+- ADDED: Onboarding flow (lib/screens/onboarding/onboarding_screen.dart) - 3 pages: Discover, Smart Reminders, Watch & Learn
+- ADDED: Calendar view (lib/screens/calendar/calendar_screen.dart) using table_calendar with exhibition markers
+- ADDED: Settings screen (lib/screens/settings/settings_screen.dart) - language, notifications, offline data, sync, account
+- ADDED: PushNotificationService (lib/services/push_notification_service.dart) - FCM for push notifications
+- ADDED: AnalyticsService (lib/services/analytics_service.dart) - Firebase Analytics tracking for app events
+- ADDED: RemoteConfigService (lib/services/remote_config_service.dart) - Firebase Remote Config for dynamic config
+- ADDED: OfflineDataService (lib/services/offline_data_service.dart) - SharedPreferences caching for offline support
+- ADDED: Calendar tab to dashboard navigation (5 tabs: Home, Search, Calendar, Favorites, Profile)
+- ADDED: Settings link in Profile tab
+- ADDED: settings/notifications translations (EN/AR/FR)
+- UPDATED: pubspec.yaml - added shared_preferences, table_calendar, firebase_messaging, firebase_analytics, firebase_remote_config
+- FIXED: firebase_remote_config version to ^5.5.0 for compatibility with firebase_core
