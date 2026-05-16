@@ -107,3 +107,6 @@
 - ADDED: Better error message for Google sign-in failures
 - ADDED: Reset Onboarding option in Settings (for testing welcome screen)
 - IMPROVED: Login error messages - shows human-readable errors for common Firebase Auth errors
+- FIXED: Package name mismatch - changed namespace to com.altijan.EXPOconnect to match SHA-1 in google-services.json
+- FIXED: MainActivity.kt moved to correct package folder
+- FIXED: Root google-services.json updated with OAuth client for Google Sign-In
