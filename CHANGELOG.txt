@@ -105,3 +105,5 @@
 - INCREASED: Button text size to 18px
 - ADDED: Error message display when email/password login fails
 - ADDED: Better error message for Google sign-in failures
+- ADDED: Reset Onboarding option in Settings (for testing welcome screen)
+- IMPROVED: Login error messages - shows human-readable errors for common Firebase Auth errors

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../onboarding/onboarding_screen.dart';
+import '../auth/auth_screen.dart';
 import 'package:provider/provider.dart';
 import '../../services/app_provider.dart';
 import '../../core/theme/colors.dart';
@@ -61,6 +64,13 @@ class SettingsScreen extends StatelessWidget {
                     const SnackBar(content: Text('Syncing data...')),
                   );
                 },
+              ),
+              ListTile(
+                leading: const Icon(Icons.play_circle_outline),
+                title: const Text('Reset Onboarding'),
+                subtitle: const Text('Show welcome screens again'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => _resetOnboarding(context),
               ),
             ],
           ),
@@ -302,6 +312,38 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _resetOnboarding(BuildContext context) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Reset Onboarding'),
+        content: const Text('This will show the welcome screens again on next app launch.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Reset'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('hasOnboarded', false);
+      await prefs.setBool('skipOnboarding', true);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Onboarding will show on next launch. Restart the app.')),
+        );
+      }
+    }
   }
 
   String localeToLanguage(String code) {

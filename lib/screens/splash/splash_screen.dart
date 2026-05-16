@@ -43,26 +43,25 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     final prefs = await SharedPreferences.getInstance();
     final hasOnboarded = prefs.getBool('hasOnboarded') ?? false;
+    final skipOnboarding = prefs.getBool('skipOnboarding') ?? false;
 
-    if (hasOnboarded) {
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const AuthScreen(),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
-        ),
-      );
+    // For testing, check skipOnboarding flag. If user has already onboarded, go to auth.
+    // Otherwise show onboarding.
+    Widget nextScreen;
+    if (hasOnboarded || skipOnboarding) {
+      nextScreen = const AuthScreen();
     } else {
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const OnboardingScreen(),
-          transitionDuration: const Duration(milliseconds: 500),
-          transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
-        ),
-      );
+      nextScreen = const OnboardingScreen();
     }
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => nextScreen,
+        transitionDuration: const Duration(milliseconds: 500),
+        transitionsBuilder: (_, animation, __, child) => FadeTransition(opacity: animation, child: child),
+      ),
+    );
   }
 
   @override

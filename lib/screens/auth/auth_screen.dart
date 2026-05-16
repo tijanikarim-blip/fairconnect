@@ -398,11 +398,29 @@ class _AuthScreenState extends State<AuthScreen> {
       );
     }
 
-    if (!success && mounted && provider.error != null) {
+    if (!success && mounted) {
+      String errorMsg = provider.error ?? 'Login failed';
+      
+      // Clean up common Firebase error messages
+      if (errorMsg.contains('INVALID_LOGIN_CREDENTIALS')) {
+        errorMsg = 'Invalid email or password';
+      } else if (errorMsg.contains('EMAIL_NOT_FOUND')) {
+        errorMsg = 'No account found with this email';
+      } else if (errorMsg.contains('INVALID_PASSWORD')) {
+        errorMsg = 'Wrong password';
+      } else if (errorMsg.contains('USER_DISABLED')) {
+        errorMsg = 'This account has been disabled';
+      } else if (errorMsg.contains('TOO_MANY_ATTEMPTS')) {
+        errorMsg = 'Too many attempts. Try again later';
+      } else if (errorMsg.contains('network')) {
+        errorMsg = 'Network error. Check your connection';
+      }
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(provider.error!),
+          content: Text(errorMsg),
           backgroundColor: Colors.red.shade700,
+          duration: const Duration(seconds: 4),
         ),
       );
     }
